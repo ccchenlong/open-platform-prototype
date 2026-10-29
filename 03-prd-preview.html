@@ -1,0 +1,2523 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<title>PRD 预览 · 创新支撑系统（开放平台）v1.1</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f5f6f8;color:#1d2129;font:14px/1.75 "PingFang SC","Microsoft YaHei",system-ui}
+a{color:#165dff;text-decoration:none}
+.wrap{display:flex;max-width:1280px;margin:0 auto;gap:24px;padding:24px}
+aside{width:250px;flex:0 0 250px;position:sticky;top:24px;align-self:flex-start;max-height:calc(100vh - 48px);overflow:auto;
+background:#fff;border:1px solid #e5e6eb;border-radius:12px;padding:16px}
+aside h4{margin:0 0 8px;font-size:13px;color:#86909c;font-weight:600;letter-spacing:.5px}
+aside ul{list-style:none;margin:0;padding:0}
+aside li{margin:2px 0}
+aside ul ul{padding-left:12px}
+aside a{display:block;padding:4px 8px;border-radius:6px;color:#4e5969;font-size:13px}
+aside a:hover{background:#f2f3f5;color:#165dff}
+main{flex:1;min-width:0;background:#fff;border:1px solid #e5e6eb;border-radius:12px;padding:32px 40px}
+h1{font-size:26px;margin:0 0 8px}
+h2{font-size:19px;margin:36px 0 12px;padding-bottom:8px;border-bottom:1px solid #e5e6eb}
+h3{font-size:15px;margin:24px 0 8px;color:#165dff}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+th,td{border:1px solid #e5e6eb;padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#f7f8fa;font-weight:600;white-space:nowrap}
+tr:nth-child(even) td{background:#fcfcfd}
+code{background:#f2f3f5;padding:1px 5px;border-radius:4px;font-size:12px}
+blockquote{margin:12px 0;padding:10px 14px;background:#f7f8fa;border-left:3px solid #165dff;color:#4e5969}
+.tag{display:inline-block;background:#fff7e8;color:#d25f00;border:1px solid #ffcf8b;border-radius:4px;
+padding:0 5px;font-size:11px;line-height:18px;vertical-align:1px}
+.meta{color:#86909c;font-size:13px}
+.alert{background:#e8f3ff;border:1px solid #bedaff;border-radius:10px;padding:14px 18px;margin:18px 0}
+.alert b{color:#165dff}
+.bar{display:flex;gap:12px;align-items:center;margin:14px 0 6px}
+.bar input{flex:1;max-width:340px;padding:8px 12px;border:1px solid #e5e6eb;border-radius:8px;font-size:13px;outline:none}
+.bar input:focus{border-color:#165dff}
+.bar span{color:#86909c;font-size:12px}
+@media print{aside{display:none}.wrap{padding:0}main{border:0}body{background:#fff}}
+</style></head>
+<body><div class="wrap">
+<aside><h4>目录</h4><div class="toc">
+<ul>
+<li><a href="#1">1. 背景与目标</a></li>
+<li><a href="#2">2. 用户与场景</a></li>
+<li><a href="#3">3. 功能清单（概述）</a></li>
+<li><a href="#4">4. 页面说明</a><ul>
+<li><a href="#_1">前台配置区（开放平台门户）</a></li>
+<li><a href="#_2">后台管理区（开放门户管理）</a></li>
+<li><a href="#d-01-4-194">前台浏览端（D-01 新增，4 页，不计入 194 条）</a></li>
+</ul>
+</li>
+<li><a href="#5">5. 业务规则</a></li>
+<li><a href="#6">6. 异常处理</a></li>
+<li><a href="#7">7. 验收标准</a></li>
+<li><a href="#8">8. 待确认事项</a></li>
+<li><a href="#9">9. 追溯</a></li>
+</ul>
+</div>
+</aside>
+<main>
+<div class="alert"><b>PRD v1.3 · N6 评审修正版（待裁决）</b><br>
+本页为 PRD 文档视图（v1.1 正文）＋ v1.3 全局补充与修正（权限矩阵 / 数据字典 / 非功能需求，见第 10–13 章）。<br>
+逐页 PRD 与原型对照请打开：<a href="04-prototype/index.html" target="_blank"><b>04-prototype/index.html</b></a>（左原型右 PRD）。<br>
+看完后请给结论：<b>通过进入 N7</b> / <b>打回 N6</b> / <b>回退 N4</b> / <b>暂停补充</b>。</div>
+<h1 id="03-prd">03 模块 PRD · 创新支撑系统（开放平台）</h1>
+<ul>
+<li>版本：v1.3 ｜ 责任人：周宇（占位） ｜ 日期：2026-10-29</li>
+<li>依据：<code>01-analysis.md</code> v2.1（r3）、<code>02-clarify.md</code>（D-01～D-03）、<code>context/prd-template.md</code></li>
+<li>范围：开放平台门户（59）+ 开放门户管理（135），共 <strong>194 个功能点 / 11 个模块 / 18 个后台页面</strong>
+  另加 <strong>前台浏览端 4 页</strong>（D-01 新增，不计入 194 条，C-07）</li>
+<li>功能点明细见附录：<code>03-prd-功能清单.md</code></li>
+</ul>
+<h2 id="1">1. 背景与目标</h2>
+<p>开放平台对外暴露能力（API、文档、资源、案例），但门户内容与文档长期依赖开发人员手工改代码，缺少可运营的后台。本期建设后台配置与运营能力，让四类分级管理员在各自权限与机构范围内自助维护，不触碰数据库与代码。</p>
+<p><strong>目标</strong>
+1. 194 个功能点全部可操作，P0 134 条无阻断缺陷。
+2. 打通主流程：配置首页区块 → 维护开放能力文档 → 接收处理工单 → 发布公告。
+3. 权限按「角色 → 权限组 → 机构」三级生效，跨机构数据不可见。
+4. 前台浏览端 4 页可访问，内容与后台配置一致（D-01）。</p>
+<p><strong>非目标</strong>
+- 前台浏览端不做登录注册、在线调试、工单提交（D-01 边界）
+- 不做权限管理、系统管理、标签管理、通知待办四个子系统
+- 不做移动端专属布局（仅响应式降级）</p>
+<h2 id="2">2. 用户与场景</h2>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>可进入的页面</th>
+<th>数据范围</th>
+<th>关键动作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>分级管理员</td>
+<td>P01–P18（本级）</td>
+<td>本级及下级机构</td>
+<td>分配下级管理员、配置本级首页与内容</td>
+</tr>
+<tr>
+<td>应用管理员</td>
+<td>P05、P11–P13、P16</td>
+<td>所辖应用</td>
+<td>维护所辖应用的开放能力、资源与文档</td>
+</tr>
+<tr>
+<td>工作台管理员</td>
+<td>P01–P09、P15、P18</td>
+<td>本级工作台</td>
+<td>维护首页区块、帮助与搜索配置</td>
+</tr>
+<tr>
+<td>工单管理员</td>
+<td>P14</td>
+<td>本级工单</td>
+<td>处理与审批工单</td>
+</tr>
+<tr>
+<td>系统内置超管</td>
+<td>全部（只读入口）</td>
+<td>全局</td>
+<td>授权管理员（A-02，本期只保留判定）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>主流程</strong>：工作台管理员配置首页轮播与公告 → 应用管理员维护 API 文档与示例 → 工单管理员处理用户工单 → 分级管理员查看本级指标。</p>
+<p>状态覆盖要求：每个页面必须具备正常、空、加载、错误、无权限五态。</p>
+<h2 id="3">3. 功能清单（概述）</h2>
+<table>
+<thead>
+<tr>
+<th>子系统</th>
+<th>模块</th>
+<th>功能点</th>
+<th>P0</th>
+<th>P1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>54</td>
+<td>44</td>
+<td>10</td>
+</tr>
+<tr>
+<td>开放平台门户</td>
+<td>指标展示</td>
+<td>5</td>
+<td>0</td>
+<td>5</td>
+</tr>
+<tr>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>42</td>
+<td>30</td>
+<td>12</td>
+</tr>
+<tr>
+<td>开放门户管理</td>
+<td>我的工单</td>
+<td>15</td>
+<td>11</td>
+<td>4</td>
+</tr>
+<tr>
+<td>开放门户管理</td>
+<td>全局搜索管理</td>
+<td>14</td>
+<td>7</td>
+<td>7</td>
+</tr>
+<tr>
+<td>开放门户管理</td>
+<td>开发资源管理</td>
+<td>13</td>
+<td>9</td>
+<td>4</td>
+</tr>
+<tr>
+<td>开放门户管理</td>
+<td>开发指南管理</td>
+<td>13</td>
+<td>9</td>
+<td>4</td>
+</tr>
+<tr>
+<td>开放门户管理</td>
+<td>帮助信息管理</td>
+<td>13</td>
+<td>9</td>
+<td>4</td>
+</tr>
+<tr>
+<td>开放门户管理</td>
+<td>通知公告管理</td>
+<td>11</td>
+<td>8</td>
+<td>3</td>
+</tr>
+<tr>
+<td>开放门户管理</td>
+<td>应用案例管理</td>
+<td>8</td>
+<td>6</td>
+<td>2</td>
+</tr>
+<tr>
+<td>开放门户管理</td>
+<td>接入步骤管理</td>
+<td>6</td>
+<td>4</td>
+<td>2</td>
+</tr>
+<tr>
+<td><strong>合计</strong></td>
+<td><strong>11 个模块</strong></td>
+<td><strong>194</strong></td>
+<td><strong>134</strong></td>
+<td><strong>60</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="4">4. 页面说明</h2>
+<h3 id="_1">前台配置区（开放平台门户）</h3>
+<p><strong>P01 轮播图配置</strong>（7 条）
+- 元素：列表（缩略图、标题、跳转、排序、状态）、新增、编辑、删除、预览、查询
+- 交互：新增/编辑走侧边抽屉；删除二次确认；置顶即时生效；图片上传限 2MB、1920×480
+- 状态：无图时显示占位与上传指引；加载失败可重试</p>
+<p><strong>P02 通知公告配置</strong>（7 条）｜<strong>P03 接入步骤配置</strong>（6 条）｜<strong>P04 应用案例配置</strong>（6 条）
+- 元素：列表 + 新增/修改/删除/查看/查询，公告与应用案例另有置顶
+- 公告：标题 ≤50 字、正文富文本、有效期起止
+- 接入步骤：步骤序号、标题、说明，支持上下调序
+- 应用案例：封面、名称、所属服务商、跳转链接</p>
+<p><strong>P05–P08 开放能力 / 开发资源 / 开发指南 / 帮助中心首页配置</strong>（各 7 条）
+- 元素：区块标题、展示条数、排序方式、内容选择（从对应管理模块挑选）、置顶
+- 交互：内容选择弹窗支持按分类筛选；保存后前台区块即时更新</p>
+<p><strong>P09 指标展示</strong>（5 条）
+- 元素：五个指标卡（应用上架数、API 调用量、用户活跃数、通知数、应用待办数）+ 趋势
+- 规则：数据口径与统计周期固定（近 30 天），不可在本页修改</p>
+<h3 id="_2">后台管理区（开放门户管理）</h3>
+<p><strong>P10 接入步骤管理</strong>（6 条）｜<strong>P15 帮助信息管理</strong>（13 条）
+- 元素：步骤/帮助条目列表、目录树、富文本编辑、发布与下线
+- 规则：目录层级不超过 3 级；下线条目前台不可见但保留历史</p>
+<p><strong>P11 开发资源管理</strong>（13 条）｜<strong>P12 开发指南管理</strong>（13 条）
+- 元素：资源列表、文档目录树、文件上传（zip/pdf，≤50MB）、版本号、下载统计
+- 规则：同目录下文件名不可重复；更新文件须填写版本与变更说明</p>
+<p><strong>P13 开放能力管理</strong>（42 条）
+- 元素：服务端 API / 客户端 API 两个 Tab，各自的 API 列表、文档目录、接口示例、错误码
+- 规则：API 需绑定所属应用与版本；错误码全局唯一；示例与 API 版本必须一致
+- 交互：API 详情左右分栏（左文档目录、右内容）；删除 API 前校验示例与错误码引用</p>
+<p><strong>P14 我的工单</strong>（15 条）
+- 元素：工单列表（编号、标题、提交人、状态、时效）、详情、处理、审批、导出
+- 状态机：待处理 → 处理中 → 待审批 → 已完成 / 已驳回；驳回可重新提交
+- 规则：超过 SLA 未处理标红；审批人不可与处理人同一人</p>
+<p><strong>P16 应用案例管理</strong>（8 条）｜<strong>P17 通知公告管理</strong>（11 条）
+- 元素：列表 + CRUD + 置顶 + 发布/撤回
+- 规则：发布后才在前台可见；撤回保留记录</p>
+<p><strong>P18 全局搜索管理</strong>（14 条）
+- 元素：搜索范围配置（模块开关）、热搜词列表、排序、生效时间
+- 规则：热搜词上限 20 个；同一词不可重复；停用后前台不再展示</p>
+<h3 id="d-01-4-194">前台浏览端（D-01 新增，4 页，不计入 194 条）</h3>
+<p><strong>P19 门户首页（浏览）</strong>
+- 元素：轮播、公告、接入步骤、应用案例、开放能力入口、四个指标卡（不含「应用待办数」，该指标仅后台 P09 可见）
+- 数据：全部来自后台配置，只读；未配置的区块自动隐藏，不留空框
+- 状态：全空时显示引导文案；接口失败显示占位并可重试</p>
+<p><strong>P20 开放能力文档（浏览）</strong>
+- 元素：左侧文档目录（≤3 级）、右侧正文、API 版本切换、错误码页签、示例代码复制
+- 规则：目录结构与后台 P13 一致；版本不一致时正文顶部提示当前版本
+- 状态：无文档显示空态；目录点击后正文平滑切换</p>
+<p><strong>P21 应用案例（浏览）</strong>
+- 元素：案例卡片列表、分类与服务商筛选、详情页
+- 规则：仅展示「已发布且未下线」的案例；置顶按后台顺序
+- 状态：无案例显示空态并提供返回首页入口</p>
+<p><strong>P22 全局搜索（浏览）</strong>
+- 元素：搜索框、热搜词、结果分组（文档 / 案例 / 指南 / 帮助）
+- 规则：热搜词来自后台 P18，停用词不展示；无结果给出推荐词
+- 状态：搜索中显示加载；超时提示重试</p>
+<h2 id="5">5. 业务规则</h2>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>规则</th>
+<th>前置条件</th>
+<th>失败处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R-01</td>
+<td>权限判定顺序：角色 → 权限组 → 机构数据范围</td>
+<td>用户已登录且被授权</td>
+<td>无权限跳 P403 态并给申请入口</td>
+</tr>
+<tr>
+<td>R-02</td>
+<td>机构数据隔离：仅可见本级及下级机构数据</td>
+<td>机构树已维护</td>
+<td>越权请求返回空列表并记日志</td>
+</tr>
+<tr>
+<td>R-03</td>
+<td>删除保护：存在关联引用时禁止删除</td>
+<td>先查引用（示例/错误码/文档）</td>
+<td>阻断并列出引用方</td>
+</tr>
+<tr>
+<td>R-04</td>
+<td>排序规则：有置顶的对象置顶项优先、按置顶时间倒序，其余按更新时间倒序；无置顶的列表型（轮播、接入步骤）按排序值 1–99 升序</td>
+<td>记录状态为已发布 / 已上架</td>
+<td>排序异常回退默认排序</td>
+</tr>
+<tr>
+<td>R-05</td>
+<td>文档目录层级 ≤3 级，同级名称唯一</td>
+<td>目录已存在</td>
+<td>阻断并提示冲突项</td>
+</tr>
+<tr>
+<td>R-06</td>
+<td>发布/下线上线：发布前台可见，下线保留历史</td>
+<td>内容校验通过</td>
+<td>校验失败阻断并定位字段</td>
+</tr>
+<tr>
+<td>R-07</td>
+<td>工单状态流转仅允许前进，驳回可重提</td>
+<td>工单存在且未终态</td>
+<td>非法流转阻断并提示当前状态</td>
+</tr>
+<tr>
+<td>R-08</td>
+<td>审批人与处理人不可为同一人</td>
+<td>工单进入待审批</td>
+<td>阻断并提示更换审批人</td>
+</tr>
+<tr>
+<td>R-09</td>
+<td>文件上传限类型与大小，超限拒绝</td>
+<td>已选文件</td>
+<td>前端先校验，服务端二次校验</td>
+</tr>
+<tr>
+<td>R-10</td>
+<td>热搜词上限 20 个，同词唯一</td>
+<td>新增热搜词</td>
+<td>超限或重复阻断并提示</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6">6. 异常处理</h2>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>触发</th>
+<th>系统行为</th>
+<th>用户提示</th>
+<th>恢复</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>列表加载失败</td>
+<td>接口超时/500</td>
+<td>保留筛选条件</td>
+<td>加载失败，请重试</td>
+<td>重试按钮</td>
+</tr>
+<tr>
+<td>保存冲突</td>
+<td>他人已修改</td>
+<td>不覆盖，返回最新版本</td>
+<td>数据已更新，请刷新后重试</td>
+<td>刷新对比</td>
+</tr>
+<tr>
+<td>删除被引用</td>
+<td>有关联数据</td>
+<td>不删除</td>
+<td>已被 X 引用，请先解除</td>
+<td>跳转引用方</td>
+</tr>
+<tr>
+<td>上传超限</td>
+<td>文件 &gt;50MB</td>
+<td>拒绝上传</td>
+<td>文件超出 50MB</td>
+<td>重新选择</td>
+</tr>
+<tr>
+<td>无权限访问</td>
+<td>越权 URL</td>
+<td>不返回数据</td>
+<td>无权访问该页面</td>
+<td>申请权限</td>
+</tr>
+<tr>
+<td>工单非法流转</td>
+<td>状态不符</td>
+<td>拒绝</td>
+<td>当前状态不可执行该操作</td>
+<td>刷新详情</td>
+</tr>
+<tr>
+<td>导出超量</td>
+<td>&gt;1 万条</td>
+<td>拒绝同步导出</td>
+<td>数据量过大，请缩小范围</td>
+<td>调整筛选</td>
+</tr>
+<tr>
+<td>置顶数量超限</td>
+<td>公告位 &gt;2 条 / 案例位 &gt;1 条 / 首页区块 &gt;1 条</td>
+<td>拒绝</td>
+<td>置顶已达上限</td>
+<td>取消其他置顶</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7">7. 验收标准</h2>
+<table>
+<thead>
+<tr>
+<th>范围</th>
+<th>验收项</th>
+<th>方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>主流程 A</td>
+<td>配置轮播图 → 前台展示生效（≤1 分钟）</td>
+<td>端到端操作</td>
+</tr>
+<tr>
+<td>主流程 B</td>
+<td>新增 API 文档 → 门户可检索到</td>
+<td>端到端操作</td>
+</tr>
+<tr>
+<td>主流程 C</td>
+<td>工单 提交→处理→审批→完成，全链路留痕</td>
+<td>端到端操作</td>
+</tr>
+<tr>
+<td>P0 功能点（134 条）</td>
+<td>全部可操作，无阻断缺陷</td>
+<td>逐条走查</td>
+</tr>
+<tr>
+<td>P1 功能点（60 条）</td>
+<td>查询/查看/展示/置顶结果正确</td>
+<td>抽样 + 逐条</td>
+</tr>
+<tr>
+<td>权限</td>
+<td>四类角色进入各自页面，越权被拦</td>
+<td>角色矩阵走查</td>
+</tr>
+<tr>
+<td>机构隔离</td>
+<td>下级机构不可见上级数据</td>
+<td>两账号对照</td>
+</tr>
+<tr>
+<td>状态覆盖</td>
+<td>每页五态齐全</td>
+<td>逐页检查</td>
+</tr>
+<tr>
+<td>前台浏览端（4 页）</td>
+<td>页面可打开，内容与后台配置一致（≤1 分钟生效）</td>
+<td>端到端</td>
+</tr>
+<tr>
+<td>P20 与 P13 一致性</td>
+<td>目录、正文、错误码、示例逐项一致</td>
+<td>抽查 3 处</td>
+</tr>
+<tr>
+<td>一致性</td>
+<td>页面编号/字段名/状态名与 <code>project-spec.md</code> 一致</td>
+<td>抽查 3 处</td>
+</tr>
+</tbody>
+</table>
+<h2 id="8">8. 待确认事项</h2>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>问题</th>
+<th>候选</th>
+<th>推荐</th>
+<th>影响</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D-01</td>
+<td>前台浏览端</td>
+<td>已裁决：做完整浏览端（4 页）</td>
+<td>本版已纳入</td>
+<td>P19–P22</td>
+</tr>
+<tr>
+<td>D-02</td>
+<td>超管授权页</td>
+<td>已裁决：只留判定，不做页面</td>
+<td>—</td>
+<td>权限入口</td>
+</tr>
+<tr>
+<td>D-03</td>
+<td>工单填报</td>
+<td>已裁决：只做处理审批，填报由外部用户完成</td>
+<td>—</td>
+<td>P14</td>
+</tr>
+<tr>
+<td>U-01</td>
+<td>194 条验收摘要均为推断</td>
+<td>逐条校对 / 抽样校对</td>
+<td>逐条</td>
+<td>全量</td>
+</tr>
+<tr>
+<td>U-02</td>
+<td>指标口径（统计周期、数据源）</td>
+<td>近 30 天 / 可配置</td>
+<td>近 30 天</td>
+<td>P09</td>
+</tr>
+</tbody>
+</table>
+<h2 id="9">9. 追溯</h2>
+<ul>
+<li>功能点 → 页面：附录编号 F-xxx 对应第 4 章页面编号</li>
+<li>需求 → 答复：每条规则标注 C-0x（见 <code>02-clarify.md</code>）</li>
+<li>推断内容统一标 <code><span class="tag">推断</span></code>，N6 评审逐条确认</li>
+</ul>
+<h2 id="apx">附录 A · 本期功能点清单（194 条）</h2>
+<div class="bar"><input id="q" placeholder="输入编号 / 模块 / 功能点关键词过滤"><span id="cnt"></span></div>
+<h1 id="a-194">附录 A · 本期功能点清单（194 条）</h1>
+<blockquote>
+<p>由 <code>需求功能点清单.xls</code> 按范围（开放平台门户 + 开放门户管理）筛选生成。
+原清单「功能点简述」为模板句，本表验收摘要为 <code><span class="tag">推断</span></code>，评审时逐条校对（C-06）。</p>
+</blockquote>
+<p>共 194 条。</p>
+<table id="funcTable">
+<thead>
+<tr>
+<th>编号</th>
+<th>子系统</th>
+<th>模块</th>
+<th>子模块</th>
+<th>功能点</th>
+<th>动作</th>
+<th>优先级</th>
+<th>验收摘要</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F-001</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>轮播图首页配置</td>
+<td>轮播图配置管理</td>
+<td>配置管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-002</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>通知公告首页配置</td>
+<td>通知公告配置管理</td>
+<td>配置管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-003</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>接入步骤首页配置</td>
+<td>接入步骤首页配置管理</td>
+<td>配置管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-004</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>应用案例首页配置</td>
+<td>应用案例首页配置管理</td>
+<td>配置管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-005</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>开放能力首页配置</td>
+<td>开放能力首页配置管理</td>
+<td>配置管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-006</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>开发资源首页配置</td>
+<td>开发资源首页配置管理</td>
+<td>配置管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-007</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>开发指南首页配置</td>
+<td>开发指南首页配置管理</td>
+<td>配置管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-008</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>帮助中心首页配置</td>
+<td>帮助首页配置管理</td>
+<td>配置管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-009</td>
+<td>开放门户管理</td>
+<td>接入步骤管理</td>
+<td>—</td>
+<td>接入步骤管理</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-010</td>
+<td>开放门户管理</td>
+<td>开发资源管理</td>
+<td>—</td>
+<td>平台资源管理</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-011</td>
+<td>开放门户管理</td>
+<td>开发资源管理</td>
+<td>—</td>
+<td>开发资源文档目录管理</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-012</td>
+<td>开放门户管理</td>
+<td>开发指南管理</td>
+<td>—</td>
+<td>开发指南管理</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-013</td>
+<td>开放门户管理</td>
+<td>开发指南管理</td>
+<td>—</td>
+<td>开发指南文档目录管理</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-014</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>服务端API管理</td>
+<td>服务端API管理</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-015</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>服务端API管理</td>
+<td>服务端API文档目录管理</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-016</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>客户端API管理</td>
+<td>客户端API管理</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-017</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>客户端API管理</td>
+<td>客户端API文档目录管理</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-018</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>接口示例管理</td>
+<td>接口示例信息管理</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-019</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>接口错误码管理</td>
+<td>接口错误码信息管理</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-020</td>
+<td>开放门户管理</td>
+<td>我的工单</td>
+<td>—</td>
+<td>工单填报</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-021</td>
+<td>开放门户管理</td>
+<td>我的工单</td>
+<td>—</td>
+<td>工单处理</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-022</td>
+<td>开放门户管理</td>
+<td>我的工单</td>
+<td>—</td>
+<td>工单审批</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-023</td>
+<td>开放门户管理</td>
+<td>帮助信息管理</td>
+<td>—</td>
+<td>帮助管理</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-024</td>
+<td>开放门户管理</td>
+<td>帮助信息管理</td>
+<td>—</td>
+<td>帮助文档目录管理</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-025</td>
+<td>开放门户管理</td>
+<td>应用案例管理</td>
+<td>—</td>
+<td>应用案例管理</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-026</td>
+<td>开放门户管理</td>
+<td>通知公告管理</td>
+<td>—</td>
+<td>通知公告信息管理</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-027</td>
+<td>开放门户管理</td>
+<td>全局搜索管理</td>
+<td>—</td>
+<td>全局搜索管理</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-028</td>
+<td>开放门户管理</td>
+<td>全局搜索管理</td>
+<td>—</td>
+<td>热搜词管理</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-029</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>轮播图首页配置</td>
+<td>轮播图新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-030</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>轮播图首页配置</td>
+<td>轮播图修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-031</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>轮播图首页配置</td>
+<td>轮播图删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-032</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>轮播图首页配置</td>
+<td>轮播图查看</td>
+<td>查看</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 详情字段与列表一致；无权限时展示无权限态与申请入口</td>
+</tr>
+<tr>
+<td>F-033</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>轮播图首页配置</td>
+<td>轮播图查询</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-034</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>轮播图首页配置</td>
+<td>轮播图时间间隔修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-035</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>通知公告首页配置</td>
+<td>通知公告首页配置新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-036</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>通知公告首页配置</td>
+<td>通知公告首页配置修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-037</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>通知公告首页配置</td>
+<td>通知公告首页配置删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-038</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>通知公告首页配置</td>
+<td>通知公告首页配置查看</td>
+<td>查看</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 详情字段与列表一致；无权限时展示无权限态与申请入口</td>
+</tr>
+<tr>
+<td>F-039</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>通知公告首页配置</td>
+<td>通知公告首页配置查询</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-040</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>通知公告首页配置</td>
+<td>通知公告首页配置置顶</td>
+<td>置顶</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 置顶后按置顶时间倒序排在最前；取消置顶恢复默认排序</td>
+</tr>
+<tr>
+<td>F-041</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>接入步骤首页配置</td>
+<td>接入步骤首页配置新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-042</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>接入步骤首页配置</td>
+<td>接入步骤首页配置修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-043</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>接入步骤首页配置</td>
+<td>接入步骤首页配置删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-044</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>接入步骤首页配置</td>
+<td>接入步骤首页配置查看</td>
+<td>查看</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 详情字段与列表一致；无权限时展示无权限态与申请入口</td>
+</tr>
+<tr>
+<td>F-045</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>接入步骤首页配置</td>
+<td>接入步骤首页配置查询</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-046</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>应用案例首页配置</td>
+<td>应用案例首页配置增加</td>
+<td>增加</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-047</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>应用案例首页配置</td>
+<td>应用案例首页配置删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-048</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>应用案例首页配置</td>
+<td>应用案例首页配置查看</td>
+<td>查看</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 详情字段与列表一致；无权限时展示无权限态与申请入口</td>
+</tr>
+<tr>
+<td>F-049</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>应用案例首页配置</td>
+<td>应用案例首页配置查询</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-050</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>应用案例首页配置</td>
+<td>应用案例首页置顶</td>
+<td>置顶</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 置顶后按置顶时间倒序排在最前；取消置顶恢复默认排序</td>
+</tr>
+<tr>
+<td>F-051</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>开放能力首页配置</td>
+<td>开放能力首页配置新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-052</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>开放能力首页配置</td>
+<td>开放能力首页配置修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-053</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>开放能力首页配置</td>
+<td>开放能力首页配置删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-054</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>开放能力首页配置</td>
+<td>开放能力首页配置查看</td>
+<td>查看</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 详情字段与列表一致；无权限时展示无权限态与申请入口</td>
+</tr>
+<tr>
+<td>F-055</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>开放能力首页配置</td>
+<td>开放能力首页配置查询</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-056</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>开放能力首页配置</td>
+<td>开放能力首页置顶</td>
+<td>置顶</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 置顶后按置顶时间倒序排在最前；取消置顶恢复默认排序</td>
+</tr>
+<tr>
+<td>F-057</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>开发资源首页配置</td>
+<td>开发资源首页配置新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-058</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>开发资源首页配置</td>
+<td>开发资源首页配置修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-059</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>开发资源首页配置</td>
+<td>开发资源首页配置删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-060</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>开发资源首页配置</td>
+<td>开发资源首页配置查看</td>
+<td>查看</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 详情字段与列表一致；无权限时展示无权限态与申请入口</td>
+</tr>
+<tr>
+<td>F-061</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>开发资源首页配置</td>
+<td>开发资源首页配置查询</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-062</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>开发资源首页配置</td>
+<td>开发资源首页置顶</td>
+<td>置顶</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 置顶后按置顶时间倒序排在最前；取消置顶恢复默认排序</td>
+</tr>
+<tr>
+<td>F-063</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>开发指南首页配置</td>
+<td>开发指南首页配置新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-064</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>开发指南首页配置</td>
+<td>开发指南首页配置修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-065</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>开发指南首页配置</td>
+<td>开发指南首页配置删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-066</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>开发指南首页配置</td>
+<td>开发指南首页配置查看</td>
+<td>查看</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 详情字段与列表一致；无权限时展示无权限态与申请入口</td>
+</tr>
+<tr>
+<td>F-067</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>开发指南首页配置</td>
+<td>开发指南首页配置查询</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-068</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>开发指南首页配置</td>
+<td>开发指南首页置顶</td>
+<td>置顶</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 置顶后按置顶时间倒序排在最前；取消置顶恢复默认排序</td>
+</tr>
+<tr>
+<td>F-069</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>帮助中心首页配置</td>
+<td>帮助首页配置新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-070</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>帮助中心首页配置</td>
+<td>帮助首页配置修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-071</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>帮助中心首页配置</td>
+<td>帮助首页配置删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-072</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>帮助中心首页配置</td>
+<td>帮助首页配置查看</td>
+<td>查看</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 详情字段与列表一致；无权限时展示无权限态与申请入口</td>
+</tr>
+<tr>
+<td>F-073</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>帮助中心首页配置</td>
+<td>帮助首页配置查询</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-074</td>
+<td>开放平台门户</td>
+<td>门户首页配置</td>
+<td>帮助中心首页配置</td>
+<td>帮助首页置顶</td>
+<td>置顶</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 置顶后按置顶时间倒序排在最前；取消置顶恢复默认排序</td>
+</tr>
+<tr>
+<td>F-075</td>
+<td>开放平台门户</td>
+<td>指标展示</td>
+<td>—</td>
+<td>应用上架数量展示</td>
+<td>展示</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按统计口径展示数据；无数据时显示占位，加载失败可重试</td>
+</tr>
+<tr>
+<td>F-076</td>
+<td>开放平台门户</td>
+<td>指标展示</td>
+<td>—</td>
+<td>API调用数量展示</td>
+<td>展示</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按统计口径展示数据；无数据时显示占位，加载失败可重试</td>
+</tr>
+<tr>
+<td>F-077</td>
+<td>开放平台门户</td>
+<td>指标展示</td>
+<td>—</td>
+<td>用户活跃数量展示</td>
+<td>展示</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按统计口径展示数据；无数据时显示占位，加载失败可重试</td>
+</tr>
+<tr>
+<td>F-078</td>
+<td>开放平台门户</td>
+<td>指标展示</td>
+<td>—</td>
+<td>用户通知数量展示</td>
+<td>展示</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按统计口径展示数据；无数据时显示占位，加载失败可重试</td>
+</tr>
+<tr>
+<td>F-079</td>
+<td>开放平台门户</td>
+<td>指标展示</td>
+<td>—</td>
+<td>应用待办数量展示</td>
+<td>展示</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按统计口径展示数据；无数据时显示占位，加载失败可重试</td>
+</tr>
+<tr>
+<td>F-080</td>
+<td>开放门户管理</td>
+<td>接入步骤管理</td>
+<td>—</td>
+<td>接入步骤新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-081</td>
+<td>开放门户管理</td>
+<td>接入步骤管理</td>
+<td>—</td>
+<td>接入步骤修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-082</td>
+<td>开放门户管理</td>
+<td>接入步骤管理</td>
+<td>—</td>
+<td>接入步骤删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-083</td>
+<td>开放门户管理</td>
+<td>接入步骤管理</td>
+<td>—</td>
+<td>接入步骤查看</td>
+<td>查看</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 详情字段与列表一致；无权限时展示无权限态与申请入口</td>
+</tr>
+<tr>
+<td>F-084</td>
+<td>开放门户管理</td>
+<td>接入步骤管理</td>
+<td>—</td>
+<td>接入步骤查询</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-085</td>
+<td>开放门户管理</td>
+<td>开发资源管理</td>
+<td>—</td>
+<td>开发资源新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-086</td>
+<td>开放门户管理</td>
+<td>开发资源管理</td>
+<td>—</td>
+<td>开发资源修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-087</td>
+<td>开放门户管理</td>
+<td>开发资源管理</td>
+<td>—</td>
+<td>开发资源删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-088</td>
+<td>开放门户管理</td>
+<td>开发资源管理</td>
+<td>—</td>
+<td>开发资源查看</td>
+<td>查看</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 详情字段与列表一致；无权限时展示无权限态与申请入口</td>
+</tr>
+<tr>
+<td>F-089</td>
+<td>开放门户管理</td>
+<td>开发资源管理</td>
+<td>—</td>
+<td>开发资源查询</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-090</td>
+<td>开放门户管理</td>
+<td>开发资源管理</td>
+<td>—</td>
+<td>开发资源上架\下架</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-091</td>
+<td>开放门户管理</td>
+<td>开发资源管理</td>
+<td>—</td>
+<td>开发资源版本记录</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-092</td>
+<td>开放门户管理</td>
+<td>开发资源管理</td>
+<td>—</td>
+<td>开发资源文档目录新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-093</td>
+<td>开放门户管理</td>
+<td>开发资源管理</td>
+<td>—</td>
+<td>开发资源文档目录修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-094</td>
+<td>开放门户管理</td>
+<td>开发资源管理</td>
+<td>—</td>
+<td>开发资源文档目录删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-095</td>
+<td>开放门户管理</td>
+<td>开发资源管理</td>
+<td>—</td>
+<td>开发资源文档目录移动</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-096</td>
+<td>开放门户管理</td>
+<td>开发指南管理</td>
+<td>—</td>
+<td>开发指南新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-097</td>
+<td>开放门户管理</td>
+<td>开发指南管理</td>
+<td>—</td>
+<td>开发指南修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-098</td>
+<td>开放门户管理</td>
+<td>开发指南管理</td>
+<td>—</td>
+<td>开发指南删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-099</td>
+<td>开放门户管理</td>
+<td>开发指南管理</td>
+<td>—</td>
+<td>开发指南查询</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-100</td>
+<td>开放门户管理</td>
+<td>开发指南管理</td>
+<td>—</td>
+<td>开发指南查看</td>
+<td>查看</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 详情字段与列表一致；无权限时展示无权限态与申请入口</td>
+</tr>
+<tr>
+<td>F-101</td>
+<td>开放门户管理</td>
+<td>开发指南管理</td>
+<td>—</td>
+<td>开发指南上架\下架</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-102</td>
+<td>开放门户管理</td>
+<td>开发指南管理</td>
+<td>—</td>
+<td>开发指南版本记录</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-103</td>
+<td>开放门户管理</td>
+<td>开发指南管理</td>
+<td>—</td>
+<td>开发指南文档目录新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-104</td>
+<td>开放门户管理</td>
+<td>开发指南管理</td>
+<td>—</td>
+<td>开发指南文档目录修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-105</td>
+<td>开放门户管理</td>
+<td>开发指南管理</td>
+<td>—</td>
+<td>开发指南文档目录删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-106</td>
+<td>开放门户管理</td>
+<td>开发指南管理</td>
+<td>—</td>
+<td>开发指南文档目录移动</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-107</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>服务端API管理</td>
+<td>服务端API说明新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-108</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>服务端API管理</td>
+<td>服务端API说明修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-109</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>服务端API管理</td>
+<td>服务端API说明删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-110</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>服务端API管理</td>
+<td>服务端API说明查看</td>
+<td>查看</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 详情字段与列表一致；无权限时展示无权限态与申请入口</td>
+</tr>
+<tr>
+<td>F-111</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>服务端API管理</td>
+<td>服务端API说明查询</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-112</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>服务端API管理</td>
+<td>服务端API说明上架\下架</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-113</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>服务端API管理</td>
+<td>服务端API说明版本记录</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-114</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>服务端API管理</td>
+<td>服务端API文档目录新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-115</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>服务端API管理</td>
+<td>服务端API文档目录修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-116</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>服务端API管理</td>
+<td>服务端API文档目录删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-117</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>服务端API管理</td>
+<td>服务端API文档目录移动</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-118</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>客户端API管理</td>
+<td>客户端API说明新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-119</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>客户端API管理</td>
+<td>客户端API说明修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-120</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>客户端API管理</td>
+<td>客户端API说明删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-121</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>客户端API管理</td>
+<td>客户端API说明查询</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-122</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>客户端API管理</td>
+<td>客户端API说明查看</td>
+<td>查看</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 详情字段与列表一致；无权限时展示无权限态与申请入口</td>
+</tr>
+<tr>
+<td>F-123</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>客户端API管理</td>
+<td>客户端API说明上架\下架</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-124</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>客户端API管理</td>
+<td>客户端API说明版本记录</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-125</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>客户端API管理</td>
+<td>客户端API文档目录新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-126</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>客户端API管理</td>
+<td>客户端API文档目录修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-127</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>客户端API管理</td>
+<td>客户端API文档目录删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-128</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>客户端API管理</td>
+<td>客户端API文档目录移动</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-129</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>接口示例管理</td>
+<td>接口示例新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-130</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>接口示例管理</td>
+<td>接口示例修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-131</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>接口示例管理</td>
+<td>接口示例删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-132</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>接口示例管理</td>
+<td>接口示例批量删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-133</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>接口示例管理</td>
+<td>接口示例查询字段排序</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-134</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>接口示例管理</td>
+<td>接口示例查看</td>
+<td>查看</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 详情字段与列表一致；无权限时展示无权限态与申请入口</td>
+</tr>
+<tr>
+<td>F-135</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>接口示例管理</td>
+<td>接口示例查询</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-136</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>接口错误码管理</td>
+<td>接口错误码新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-137</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>接口错误码管理</td>
+<td>接口错误码修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-138</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>接口错误码管理</td>
+<td>接口错误码删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-139</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>接口错误码管理</td>
+<td>接口错误码批量删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-140</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>接口错误码管理</td>
+<td>接口错误码查询字段排序</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-141</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>接口错误码管理</td>
+<td>接口错误码查看</td>
+<td>查看</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 详情字段与列表一致；无权限时展示无权限态与申请入口</td>
+</tr>
+<tr>
+<td>F-142</td>
+<td>开放门户管理</td>
+<td>开放能力管理</td>
+<td>接口错误码管理</td>
+<td>接口错误码查询</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-143</td>
+<td>开放门户管理</td>
+<td>我的工单</td>
+<td>—</td>
+<td>我的工单新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-144</td>
+<td>开放门户管理</td>
+<td>我的工单</td>
+<td>—</td>
+<td>我的工单修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-145</td>
+<td>开放门户管理</td>
+<td>我的工单</td>
+<td>—</td>
+<td>我的工单删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-146</td>
+<td>开放门户管理</td>
+<td>我的工单</td>
+<td>—</td>
+<td>我的工单查询字段排序</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-147</td>
+<td>开放门户管理</td>
+<td>我的工单</td>
+<td>—</td>
+<td>我的工单查看</td>
+<td>查看</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 详情字段与列表一致；无权限时展示无权限态与申请入口</td>
+</tr>
+<tr>
+<td>F-148</td>
+<td>开放门户管理</td>
+<td>我的工单</td>
+<td>—</td>
+<td>我的工单查询</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-149</td>
+<td>开放门户管理</td>
+<td>我的工单</td>
+<td>—</td>
+<td>待处理工单查询</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-150</td>
+<td>开放门户管理</td>
+<td>我的工单</td>
+<td>—</td>
+<td>工单确认</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-151</td>
+<td>开放门户管理</td>
+<td>我的工单</td>
+<td>—</td>
+<td>工单评价</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-152</td>
+<td>开放门户管理</td>
+<td>我的工单</td>
+<td>—</td>
+<td>工单评分</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-153</td>
+<td>开放门户管理</td>
+<td>我的工单</td>
+<td>—</td>
+<td>工单审批通过</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-154</td>
+<td>开放门户管理</td>
+<td>我的工单</td>
+<td>—</td>
+<td>工单审批退回</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-155</td>
+<td>开放门户管理</td>
+<td>帮助信息管理</td>
+<td>—</td>
+<td>帮助新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-156</td>
+<td>开放门户管理</td>
+<td>帮助信息管理</td>
+<td>—</td>
+<td>帮助修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-157</td>
+<td>开放门户管理</td>
+<td>帮助信息管理</td>
+<td>—</td>
+<td>帮助删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-158</td>
+<td>开放门户管理</td>
+<td>帮助信息管理</td>
+<td>—</td>
+<td>帮助查看</td>
+<td>查看</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 详情字段与列表一致；无权限时展示无权限态与申请入口</td>
+</tr>
+<tr>
+<td>F-159</td>
+<td>开放门户管理</td>
+<td>帮助信息管理</td>
+<td>—</td>
+<td>帮助查询</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-160</td>
+<td>开放门户管理</td>
+<td>帮助信息管理</td>
+<td>—</td>
+<td>帮助上架\下架</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-161</td>
+<td>开放门户管理</td>
+<td>帮助信息管理</td>
+<td>—</td>
+<td>帮助版本记录</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-162</td>
+<td>开放门户管理</td>
+<td>帮助信息管理</td>
+<td>—</td>
+<td>帮助文档目录新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-163</td>
+<td>开放门户管理</td>
+<td>帮助信息管理</td>
+<td>—</td>
+<td>帮助文档目录修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-164</td>
+<td>开放门户管理</td>
+<td>帮助信息管理</td>
+<td>—</td>
+<td>帮助文档目录删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-165</td>
+<td>开放门户管理</td>
+<td>帮助信息管理</td>
+<td>—</td>
+<td>帮助文档目录移动</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-166</td>
+<td>开放门户管理</td>
+<td>应用案例管理</td>
+<td>—</td>
+<td>应用案例新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-167</td>
+<td>开放门户管理</td>
+<td>应用案例管理</td>
+<td>—</td>
+<td>应用案例修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-168</td>
+<td>开放门户管理</td>
+<td>应用案例管理</td>
+<td>—</td>
+<td>应用案例删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-169</td>
+<td>开放门户管理</td>
+<td>应用案例管理</td>
+<td>—</td>
+<td>应用案例查看</td>
+<td>查看</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 详情字段与列表一致；无权限时展示无权限态与申请入口</td>
+</tr>
+<tr>
+<td>F-170</td>
+<td>开放门户管理</td>
+<td>应用案例管理</td>
+<td>—</td>
+<td>应用案例查询</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-171</td>
+<td>开放门户管理</td>
+<td>应用案例管理</td>
+<td>—</td>
+<td>应用案例上架\下架</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-172</td>
+<td>开放门户管理</td>
+<td>应用案例管理</td>
+<td>—</td>
+<td>应用案例版本记录</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-173</td>
+<td>开放门户管理</td>
+<td>通知公告管理</td>
+<td>—</td>
+<td>通知公告新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-174</td>
+<td>开放门户管理</td>
+<td>通知公告管理</td>
+<td>—</td>
+<td>通知公告修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-175</td>
+<td>开放门户管理</td>
+<td>通知公告管理</td>
+<td>—</td>
+<td>通知公告删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-176</td>
+<td>开放门户管理</td>
+<td>通知公告管理</td>
+<td>—</td>
+<td>通知公告批量删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-177</td>
+<td>开放门户管理</td>
+<td>通知公告管理</td>
+<td>—</td>
+<td>通知公告置顶</td>
+<td>置顶</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 置顶后按置顶时间倒序排在最前；取消置顶恢复默认排序</td>
+</tr>
+<tr>
+<td>F-178</td>
+<td>开放门户管理</td>
+<td>通知公告管理</td>
+<td>—</td>
+<td>通知公告上架\下架</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-179</td>
+<td>开放门户管理</td>
+<td>通知公告管理</td>
+<td>—</td>
+<td>通知公告查看</td>
+<td>查看</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 详情字段与列表一致；无权限时展示无权限态与申请入口</td>
+</tr>
+<tr>
+<td>F-180</td>
+<td>开放门户管理</td>
+<td>通知公告管理</td>
+<td>—</td>
+<td>通知公告查询</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-181</td>
+<td>开放门户管理</td>
+<td>通知公告管理</td>
+<td>—</td>
+<td>通知公告查询字段排序</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-182</td>
+<td>开放门户管理</td>
+<td>通知公告管理</td>
+<td>—</td>
+<td>通知公告查询</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-183</td>
+<td>开放门户管理</td>
+<td>全局搜索管理</td>
+<td>—</td>
+<td>按查询范围搜索</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-184</td>
+<td>开放门户管理</td>
+<td>全局搜索管理</td>
+<td>—</td>
+<td>按时间范围搜索</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-185</td>
+<td>开放门户管理</td>
+<td>全局搜索管理</td>
+<td>—</td>
+<td>排序方式</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-186</td>
+<td>开放门户管理</td>
+<td>全局搜索管理</td>
+<td>—</td>
+<td>搜索分类</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+<tr>
+<td>F-187</td>
+<td>开放门户管理</td>
+<td>全局搜索管理</td>
+<td>—</td>
+<td>热搜词新增</td>
+<td>新增</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 填写必填项后保存成功，列表新增一条记录；必填缺失或格式错误时阻断并逐项提示</td>
+</tr>
+<tr>
+<td>F-188</td>
+<td>开放门户管理</td>
+<td>全局搜索管理</td>
+<td>—</td>
+<td>热搜词修改</td>
+<td>修改</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 修改后保存成功，列表与详情同步更新；并发修改时提示数据已变更</td>
+</tr>
+<tr>
+<td>F-189</td>
+<td>开放门户管理</td>
+<td>全局搜索管理</td>
+<td>—</td>
+<td>热搜词删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-190</td>
+<td>开放门户管理</td>
+<td>全局搜索管理</td>
+<td>—</td>
+<td>热搜词批量删除</td>
+<td>删除</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 二次确认后删除成功并从列表移除；存在关联引用时阻断并说明原因</td>
+</tr>
+<tr>
+<td>F-191</td>
+<td>开放门户管理</td>
+<td>全局搜索管理</td>
+<td>—</td>
+<td>热搜词查看</td>
+<td>查看</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 详情字段与列表一致；无权限时展示无权限态与申请入口</td>
+</tr>
+<tr>
+<td>F-192</td>
+<td>开放门户管理</td>
+<td>全局搜索管理</td>
+<td>—</td>
+<td>热搜词查询字段排序</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-193</td>
+<td>开放门户管理</td>
+<td>全局搜索管理</td>
+<td>—</td>
+<td>热搜词查询</td>
+<td>查询</td>
+<td>P1</td>
+<td><span class="tag">推断</span> 按条件组合查询返回匹配结果；无匹配时展示空态并提供重置条件</td>
+</tr>
+<tr>
+<td>F-194</td>
+<td>开放门户管理</td>
+<td>全局搜索管理</td>
+<td>—</td>
+<td>热搜词排序</td>
+<td>管理</td>
+<td>P0</td>
+<td><span class="tag">推断</span> 列表可维护（增删改查），保存后即时生效</td>
+</tr>
+</tbody>
+</table>
+</main></div>
+<script>
+const q=document.getElementById('q');
+const rows=[...document.querySelectorAll('#funcTable tbody tr')];
+const cnt=document.getElementById('cnt');
+function upd(){
+  const k=q.value.trim().toLowerCase();let n=0;
+  rows.forEach(r=>{const hit=!k||r.innerText.toLowerCase().includes(k);r.style.display=hit?'':'none';if(hit)n++;});
+  cnt.textContent=n+' / '+rows.length+' 条';
+}
+if(q){q.addEventListener('input',upd);upd();}
+document.querySelectorAll('aside a').forEach(a=>a.addEventListener('click',e=>{
+  const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}
+}));
+</script></body></html>
